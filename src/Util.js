@@ -35,6 +35,15 @@ Util.factorial = function(n) {
  */
 Util.arrangement = function(n, r) {
 
+    if (r > n) {
+        throw 'Unable to compute arrangement for r > n'
+    }
+
+    if (!(typeof r === "number") || Math.floor(r) !== r) {
+        throw 'Unable to compute r arrangement of non integer values'
+    }
+
+    return (Util.factorial(n) / (Util.factorial(n - r)));
 };
 
 /**
@@ -46,6 +55,7 @@ Util.arrangement = function(n, r) {
  */
 Util.combination = function(n, r) {
 
+    return (Util.arrangement(n, r)) * (1/(Util.factorial(r)));
 };
 
 /**
@@ -58,6 +68,22 @@ Util.combination = function(n, r) {
  */
 Util.isPrime = function(n) {
 
+    if (n <= 0) {
+        throw 'Unable to compute isprime for n <= 0'
+    }
+
+    if (n === 1) {
+        throw 'Unable to compute isprime for n === 1'
+    }
+
+    if (!(typeof n === "number") || Math.floor(n) !== n) {
+        throw 'Unable to compute isprime of non integer values'
+    }
+
+    for(var i = 2; i < n; i++)
+        if(n % i === 0)
+            return false;
+    return n !== 1;
 };
 
 
@@ -72,6 +98,17 @@ Util.isPrime = function(n) {
  */
 Util.sumPrime = function(n) {
 
+    var res = 0;
+
+    if (!(typeof n === "number") || Math.floor(n) !== n) {
+        throw 'Unable to compute sumprime of non integer values'
+    }
+
+    for(var i = n; i >= 2; i--)
+        if (Util.isPrime(i) === true)  
+            res = res + i;
+
+    return res;
 };
 
 /**
@@ -88,6 +125,28 @@ Util.sumPrime = function(n) {
  */
 Util.fizzBuzz = function(n) {
 
+    if (n <= 1) {
+        throw 'Unable to compute fizzbuzz for n <= 1'
+    }
+
+    if (!(typeof n === "number") || Math.floor(n) !== n) {
+        throw 'Unable to compute fizzbuzz of non integer values'
+    }
+
+    var res = [];
+
+    for (i = 1; i <= n; i++) {
+        if(i%3 ===0 && i%5 ===0)
+            res.push("FizzBuzz");
+        else if(i%3 === 0)
+            res.push("Fizz");
+        else if (i%5 === 0)
+            res.push("Buzz");
+        else
+            res.push(i)
+    }
+
+    return res;
 };
 
 /**
@@ -101,4 +160,22 @@ Util.fizzBuzz = function(n) {
  */
 Util.cipher = function (phrase) {
 
+    if (!(typeof phrase === "string")) {
+        throw 'Unable to compute cipher of non string values'
+    }
+
+    var res = "";
+
+    for (var i = 0; i < phrase.length; i++) {
+        if(phrase[i] === "Z")
+            res += "A";
+        else if(phrase[i] === "z")
+            res += "a";
+        else if(phrase[i] === " ")
+            res += " ";
+        else
+            res += String.fromCharCode(phrase[i].charCodeAt(0) + 1);
+    }
+
+    return res;
 };
