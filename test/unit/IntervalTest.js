@@ -51,3 +51,45 @@ describe("Interval - including", function () {
         });
     });
 });
+
+describe("Interval - union", function () {
+    testedInterval = new Interval(10, 20);
+
+    [
+        {
+            inter : new Interval(8, 12),
+            union : new Interval(8, 20)
+        },
+        {
+            inter : new Interval(15, 16),
+            union : new Interval(10, 20)
+        },
+        {
+            inter : new Interval(17, 22),
+            union : new Interval(10, 22)
+        },
+        {
+            inter : new Interval(10, 20),
+            union : new Interval(10, 20)
+        },
+        {
+            inter : new Interval(8, 21),
+            union : new Interval(8, 21)
+        }
+
+    ].forEach(function (interval) {
+        it("should returns " + interval.union.toString() + " with the union of " + testedInterval.toString() + " and " + interval.inter.toString(), function () {
+            expect(testedInterval.union(interval.inter)).toEqual(interval.union);
+        });
+    });
+
+    [
+        new Interval(8, 9),
+        new Interval(21, 22)
+
+    ].forEach(function (interval) {
+        it("should returns " + interval.toString() + " and " + testedInterval.toString() + " with the union of " + testedInterval.toString() + " and " + interval.toString(), function () {
+            expect(testedInterval.union(interval)).toEqual([testedInterval, interval]);
+        });
+    });
+});
