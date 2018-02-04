@@ -119,7 +119,37 @@ describe("Interval - intersection", function () {
 
     ].forEach(function (interval) {
         it("should returns " + interval.toString() + " and " + testedInterval.toString() + " with the intersection of " + testedInterval.toString() + " and " + interval.toString(), function () {
-            expect(testedInterval.intersection(interval)).toEqual(null);
+            expect(testedInterval.intersection(interval)).toBeNull();
+        });
+    });
+});
+
+describe("Interval - exclusion", function () {
+    testedInterval = new Interval(10, 20);
+
+    [
+        {
+            inter : new Interval(8, 12),
+            exclusion : [new Interval(8, 10), new Interval(12, 20)]
+        },
+        {
+            inter : new Interval(15, 25),
+            exclusion : [new Interval(10, 15), new Interval(20, 25)]
+        }
+
+    ].forEach(function (interval) {
+        it("should returns " + interval.exclusion.toString() + " with the exclusion of " + testedInterval.toString() + " and " + interval.inter.toString(), function () {
+            expect(testedInterval.exclusion(interval.inter)).toEqual(interval.exclusion);
+        });
+    });
+
+    [
+        new Interval(20, 50),
+        new Interval(0, 10)
+
+    ].forEach(function (interval) {
+        it("should returns " + interval.toString() + " and " + testedInterval.toString() + " with the exclusion of " + testedInterval.toString() + " and " + interval.toString(), function () {
+            expect(testedInterval.exclusion(interval)).toEqual([testedInterval, interval]);
         });
     });
 });

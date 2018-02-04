@@ -38,7 +38,7 @@ Interval.prototype.union = function (interval) {
 	if (!(this.overlaps(interval)))
 		return [this, interval];
 
-	if(this.includes(interval))
+	if (this.includes(interval))
 		return this;
 
 	if (this.start <= interval.start)
@@ -63,7 +63,7 @@ Interval.prototype.intersection = function (interval) {
 	if (!(this.overlaps(interval)))
 		return null;
 
-	if(this.start < interval.start)
+	if (this.start < interval.start)
 		return new Interval(interval.start, this.end);
 	else
 		return new Interval(this.start, interval.end);
@@ -75,5 +75,16 @@ Interval.prototype.intersection = function (interval) {
  * @returns {Interval[]}
  */
 Interval.prototype.exclusion = function (interval) {
+	if (!(this.overlaps(interval)))
+		return [this, interval];
 
+	if (this.start < interval.start) {
+		if (this.end < interval.end) {
+			return [new Interval(this.start, interval.start), new Interval(this.end, interval.end)];
+		} else {
+			return [new Interval(this.start, interval.start), new Interval(interval.end, this.end)];
+		}
+	} else {
+		return [new Interval(interval.start, this.start), new Interval(interval.end, this.end)];
+	}
 };
