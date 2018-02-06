@@ -51,6 +51,12 @@ Interval.prototype.union = function (interval) {
 	else
 		interval_union_end = interval.end;
 
+	if (this.start === interval.end)
+		return new Interval(interval.start, this.end);
+
+	if (this.end === interval.start)
+		return new Interval(this.start, interval.end);
+
 	return new Interval(interval_union_start, interval_union_end);
 };
 
